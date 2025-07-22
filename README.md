@@ -26,11 +26,26 @@ It gives real-time weather information, city comparisons, a 5-day forecast, and 
 
 ---
 
-## 🛠️ How to Run Locally
 
-1. **Clone the repository**:
 
+1. **Add your API key to a file named .streamlit/secrets.toml or .env**:
 ```bash
-git clone https://github.com/YOUR_USERNAME/airaware-weather-app.git
-cd airaware-weather-app
+[api]
+airvisual_key = "YOUR_API_KEY"
+```
 
+2. **Run the app**:
+```bash
+streamlit run weather_app.py
+```
+
+
+👤 Made by
+Maryam Hamid
+
+BS Computer Science Student
+
+Project for Human-Computer Interaction Lab
+
+🌐 Coming Soon
+Online deployment via Streamlit Cloud
