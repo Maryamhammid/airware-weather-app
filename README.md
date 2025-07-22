@@ -47,5 +47,7 @@ BS Computer Science Student
 
 Project for Human-Computer Interaction Lab
 
-🌐 Coming Soon
-Online deployment via Streamlit Cloud
+🌐 Live Demo
+
+Check out the live app here: (https://airware-weather-app-aqiforecast.streamlit.app/)
+
