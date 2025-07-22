@@ -7,10 +7,11 @@ import plotly.graph_objects as go
 import plotly.express as px
 from streamlit_folium import folium_static
 import folium
-import pyttsx3
+# import pyttsx3
 import threading
 import pandas as pd
-
+from gtts import gTTS
+from io import BytesIO
 
 # Load environment variables
 load_dotenv()
@@ -201,48 +202,60 @@ st.markdown("""
 
 # Initialize TTS engine
 # Updated TTS implementation
-@st.cache_resource
-def get_tts_engine():
-    try:
-        engine = pyttsx3.init()
-        engine.setProperty('rate', 150)
-        engine.setProperty('volume', 0.9)
-        return engine
-    except Exception as e:
-        st.error(f"TTS initialization failed: {e}")
-        return None
+# @st.cache_resource
+# def get_tts_engine():
+#     try:
+#         engine = pyttsx3.init()
+#         engine.setProperty('rate', 150)
+#         engine.setProperty('volume', 0.9)
+#         return engine
+#     except Exception as e:
+#         st.error(f"TTS initialization failed: {e}")
+#         return None
+
+# def speak_weather(text):
+#     """Speak weather information using TTS"""
+#     try:
+#         engine = get_tts_engine()
+#         if not engine:
+#             return False
+            
+#         # Stop any existing speech
+#         engine.stop()
+        
+#         # Run in a thread with proper cleanup
+#         def _speak():
+#             try:
+#                 engine.say(text)
+#                 engine.runAndWait()
+#             except RuntimeError:
+#                 # Handle case where engine can't be reused
+#                 new_engine = pyttsx3.init()
+#                 new_engine.setProperty('rate', 150)
+#                 new_engine.say(text)
+#                 new_engine.runAndWait()
+#                 new_engine.stop()
+                
+#         thread = threading.Thread(target=_speak)
+#         thread.start()
+#         return True
+        
+#     except Exception as e:
+#         st.error(f"Voice output error: {e}")
+#         return False
 
 def speak_weather(text):
-    """Speak weather information using TTS"""
+    """Speak weather information using gTTS (compatible with Streamlit Cloud)"""
     try:
-        engine = get_tts_engine()
-        if not engine:
-            return False
-            
-        # Stop any existing speech
-        engine.stop()
-        
-        # Run in a thread with proper cleanup
-        def _speak():
-            try:
-                engine.say(text)
-                engine.runAndWait()
-            except RuntimeError:
-                # Handle case where engine can't be reused
-                new_engine = pyttsx3.init()
-                new_engine.setProperty('rate', 150)
-                new_engine.say(text)
-                new_engine.runAndWait()
-                new_engine.stop()
-                
-        thread = threading.Thread(target=_speak)
-        thread.start()
+        tts = gTTS(text)
+        mp3_fp = BytesIO()
+        tts.write_to_fp(mp3_fp)
+        mp3_fp.seek(0)
+        st.audio(mp3_fp, format="audio/mp3")
         return True
-        
     except Exception as e:
         st.error(f"Voice output error: {e}")
         return False
-
 
 # Title section
 
